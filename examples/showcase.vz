@@ -1,0 +1,47 @@
+import window
+import ui12
+import math
+
+ui12.background = "#1e1e2e"
+ui12.color = "#cdd6f4"
+ui12.fontSize = 22
+ui12.position = "center"
+ui12.borderRadius = 8
+ui12.buttonBackground = "#89b4fa"
+ui12.buttonColor = "#1e1e2e"
+
+#{ Переменные }
+name = "VezeLang"
+version = "0.1.0"
+isReady = true
+
+show name in window
+show version in window
+
+#{ Условие }
+if isReady [
+    show "Язык готов к работе" in window
+]
+
+#{ Функция }
+func add(x, y) => {
+    return x + y
+}
+
+result = add(10, 20)
+show result in window
+
+#{ Список }
+numbers = [1, 2, 3]
+for each num in numbers => {
+    show num in window
+}
+
+#{ Объект }
+user = { name: "Алишер", age: 18 }
+show user.name in window
+
+#{ Кнопка }
+on click("Запустить showcase") => {
+    show "VezeLang работает!" in window
+}

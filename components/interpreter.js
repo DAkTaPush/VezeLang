@@ -6,31 +6,12 @@ class ReturnSignal {
   constructor(value) { this.value = value; }
 }
 
-const STDLIB = {
-  math: {
-    add:      (a, b) => a + b,
-    subtract: (a, b) => a - b,
-    multiply: (a, b) => a * b,
-    divide:   (a, b) => a / b,
-    sqrt:     (a)    => Math.sqrt(a),
-    abs:      (a)    => Math.abs(a),
-    round:    (a)    => Math.round(a),
-    floor:    (a)    => Math.floor(a),
-    ceil:     (a)    => Math.ceil(a),
-    PI:       Math.PI,
-  },
-  window: {
-    center: 'window.center',
-    top:    'window.top',
-    bottom: 'window.bottom',
-  },
-};
-
 class Interpreter {
   constructor() {
     this.globals   = {};
     this.functions = {};
     this.events    = {};
+    this.windowLib = null;
   }
 
   // --- Entry points ---
@@ -41,6 +22,18 @@ class Interpreter {
       if (sig instanceof ReturnSignal) break;
     }
     this.fireEvent('load', 'window');
+    if (this.windowLib) {
+      const ui12 = this.globals['ui12'];
+      if (ui12 && typeof ui12.getCSS === 'function') {
+        this.windowLib.setStyles(ui12.getCSS());
+      }
+      for (const key of Object.keys(this.events)) {
+        const [event, target] = key.split(':');
+        if (event === 'click') this.windowLib.registerButton(target);
+      }
+      this.windowLib.setCallback((event, target) => this.fireEvent(event, target));
+      this.windowLib.open();
+    }
   }
 
   runBlock(stmts, scope) {
@@ -56,12 +49,36 @@ class Interpreter {
     switch (node.type) {
 
       case 'ShowStatement': {
-        console.log(this.evaluate(node.value, scope));
+        const value  = this.evaluate(node.value, scope);
+        const target = node.target;
+        if (target === 'console') {
+          console.log(value);
+        } else if (target === 'window' || target.startsWith('window.')) {
+          if (this.windowLib) {
+            this.windowLib.show(value);
+          } else {
+            console.log(value);
+          }
+        } else {
+          console.log(value);
+        }
         return;
       }
 
       case 'VariableAssignment': {
         scope[node.name] = this.evaluate(node.value, scope);
+        return;
+      }
+
+      case 'PropertyAssignment': {
+        const obj = this.globals[node.object];
+        if (!obj) throw new VezeRuntimeError(`объект "${node.object}" не определён`, node.line);
+        const val = this.evaluate(node.value, scope);
+        if (typeof obj.set === 'function') {
+          obj.set(node.property, val);
+        } else {
+          obj[node.property] = val;
+        }
         return;
       }
 
@@ -257,12 +274,21 @@ class Interpreter {
 
   doImport(node) {
     if (node.module) {
-      if (node.module in STDLIB) {
-        this.globals[node.module] = STDLIB[node.module];
-      } else {
-        throw new VezeImportError(`модуль "${node.module}" не найден`, node.line);
+      const libDir = path.join(__dirname, '..', 'library');
+      switch (node.module) {
+        case 'math':
+          this.globals['math'] = require(path.join(libDir, 'math'));
+          return;
+        case 'window':
+          this.windowLib = require(path.join(libDir, 'window'));
+          this.globals['window'] = this.windowLib;
+          return;
+        case 'ui12':
+          this.globals['ui12'] = require(path.join(libDir, 'ui12'));
+          return;
+        default:
+          throw new VezeImportError(`модуль "${node.module}" не найден`, node.line);
       }
-      return;
     }
     if (node.path) {
       const filePath = path.resolve(process.cwd(), node.path);

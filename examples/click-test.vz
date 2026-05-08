@@ -1,0 +1,7 @@
+import window
+
+show "Нажми кнопку" in window
+
+on click("btn") => {
+    show "Кнопка нажата!" in window
+}

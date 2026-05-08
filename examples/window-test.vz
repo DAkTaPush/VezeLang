@@ -1,0 +1,5 @@
+import window
+
+show "Привет из VezeLang!" in window
+show "Версия 0.1.0" in window
+show "Язык который читается как английское предложение" in window

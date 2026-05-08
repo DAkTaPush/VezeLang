@@ -11,19 +11,57 @@ npm install -g .
 vezelang <файл.vz>
 ```
 
-## Пример кода
-```
+## 🖥️ Пример кода
+
+```vezeLang
 import window
+import ui12
+
+ui12.background = "#1e1e2e"
+ui12.color = "#ffffff"
+ui12.borderRadius = 8
 
 name = "VezeLang"
-show name in window.center
+show name in window
 
 func add(x, y) => {
     return x + y
 }
 
 result = add(10, 20)
-show result in window.center
+show result in window
+
+on click("Запустить") => {
+    show "Привет из VezeLang!" in window
+}
+```
+
+## 📁 Структура проекта
+
+```
+VezeLang/
+├── cli.js
+├── main.js
+├── test.vz
+├── components/
+│   ├── tokenizer.js
+│   ├── parser.js
+│   ├── interpreter.js
+│   └── error.js
+├── library/
+│   ├── math.js
+│   ├── window.js
+│   └── ui12.js
+├── examples/
+│   ├── showcase.vz
+│   ├── click-test.vz
+│   └── ui12-test.vz
+└── docs/
+    ├── specification.md
+    ├── AboutLang.md
+    ├── Claude.md
+    ├── Done.md
+    └── Task.md
 ```
 
 ## 13 правил языка

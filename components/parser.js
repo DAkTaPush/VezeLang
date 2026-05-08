@@ -71,9 +71,16 @@ class Parser {
     }
 
     if (t.type === 'IDENTIFIER') {
-      const next = this.peek(1);
+      const next  = this.peek(1);
+      const next2 = this.peek(2);
+      const next3 = this.peek(3);
       if (next.type === 'OPERATOR' && next.value === '=') {
         return this.parseVariableAssignment();
+      }
+      if (next.type  === 'PUNCTUATION' && next.value  === '.'  &&
+          next2.type === 'IDENTIFIER'  &&
+          next3.type === 'OPERATOR'    && next3.value === '=') {
+        return this.parsePropertyAssignment();
       }
       if (next.type === 'PUNCTUATION' && next.value === '(') {
         return { type: 'ExpressionStatement', expression: this.parseFunctionCallExpr(), line: t.line };
@@ -100,6 +107,16 @@ class Parser {
     this.expect('OPERATOR', '=');
     const value = this.parseExpression();
     return { type: 'VariableAssignment', name, value, line };
+  }
+
+  parsePropertyAssignment() {
+    const line   = this.peek().line;
+    const object = this.expect('IDENTIFIER').value;
+    this.expect('PUNCTUATION', '.');
+    const property = this.expect('IDENTIFIER').value;
+    this.expect('OPERATOR', '=');
+    const value = this.parseExpression();
+    return { type: 'PropertyAssignment', object, property, value, line };
   }
 
   parseIf() {

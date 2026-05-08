@@ -2,9 +2,9 @@
 
 **Project:** VezeLang
 **Current version:** 0.1
-**Status:** CLI ready.
-**Last completed:** CLI создан — команда vezelang <файл.vz>
+**Status:** ui12 v0.1 реализован.
+**Last completed:** ui12 v0.1 реализован — стили (цвет, размер, позиция, кнопки)
 
-**Next step:** протестировать CLI
+**Next step:** ui12 v0.2 — компоненты
 
-**Rules finalized:** 13 правил, задокументированы в `specification.md`
+**Rules finalized:** 14 правил, задокументированы в `specification.md`

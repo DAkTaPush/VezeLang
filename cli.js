@@ -26,16 +26,32 @@ if (!filePath.endsWith('.vz')) {
   process.exit(1);
 }
 
-try {
-  const code   = fs.readFileSync(filePath, 'utf8');
-  const tokens = new Tokenizer(code).tokenize();
-  const ast    = new Parser(tokens).parse();
-  new Interpreter().run(ast);
-} catch (err) {
-  if (err.name.startsWith('Veze')) {
-    console.log(err.message);
-  } else {
-    console.log('❌ Внутренняя ошибка:', err.message);
+const code = fs.readFileSync(filePath, 'utf8');
+
+const hasWindowImport = /^\s*import\s+window\b/m.test(code);
+
+if (hasWindowImport && !process.versions.electron) {
+  let electronBin;
+  try {
+    electronBin = require('electron');
+  } catch {
+    console.log('❌ Для использования import window установите electron: npm install electron');
+    process.exit(1);
   }
-  process.exit(1);
+  const { spawn } = require('child_process');
+  const child = spawn(electronBin, [__filename, filePath], { stdio: 'inherit' });
+  child.on('exit', code => process.exit(code || 0));
+} else {
+  try {
+    const tokens = new Tokenizer(code).tokenize();
+    const ast    = new Parser(tokens).parse();
+    new Interpreter().run(ast);
+  } catch (err) {
+    if (err.name && err.name.startsWith('Veze')) {
+      console.log(err.message);
+    } else {
+      console.log('❌ Внутренняя ошибка:', err.message);
+    }
+    process.exit(1);
+  }
 }

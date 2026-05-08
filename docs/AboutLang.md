@@ -5,6 +5,6 @@ VezeLang (Very Easy Language) was created with one principle:
 
 **Target audience:** beginners, children, people with no programming experience.
 
-**Philosophy:** simplicity over power. 13 rules, no exceptions.
+**Philosophy:** simplicity over power. 14 rules, no exceptions.
 
 **Version:** 0.1
