@@ -1,0 +1,51 @@
+import math
+
+#{ Тест 1: переменные }
+name = "VezeLang"
+version = 1
+isReady = true
+
+show name in window.center
+show version in window.center
+
+#{ Тест 2: условие }
+if isReady [
+    show "Язык готов" in window.center
+]
+
+#{ Тест 3: функция и return }
+func add(x, y) => {
+    return x + y
+}
+
+result = add(10, 20)
+show result in window.center
+
+#{ Тест 4: цикл repeat }
+repeat 3 times => {
+    show "Повтор" in window.center
+}
+
+#{ Тест 5: список }
+items = [1, 2, 3]
+show items[0] in window.center
+show items[2] in window.center
+
+#{ Тест 6: объект }
+user = { name: "Алишер", age: 18 }
+show user.name in window.center
+show user.age in window.center
+
+#{ Тест 7: for each }
+for each item in items => {
+    show item in window.center
+}
+
+#{ Тест 8: try catch }
+try {
+    result2 = add(5, 5)
+    show result2 in window.center
+}
+catch error [
+    show error in window.center
+]

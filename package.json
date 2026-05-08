@@ -1,0 +1,12 @@
+{
+  "name": "vezelang",
+  "version": "0.1.0",
+  "description": "Very Easy Language — programming language that reads like English",
+  "main": "main.js",
+  "bin": {
+    "vezelang": "./cli.js"
+  },
+  "scripts": {
+    "test": "node cli.js test.vz"
+  }
+}
