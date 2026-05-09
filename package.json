@@ -1,13 +1,26 @@
 {
   "name": "vezelang",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Very Easy Language — programming language that reads like English",
   "main": "main.js",
   "bin": {
     "vezelang": "./cli.js"
   },
-  "scripts": {
-    "test": "node cli.js test.vz"
+  "keywords": [
+    "programming-language",
+    "interpreter",
+    "easy",
+    "beginner",
+    "vezelang"
+  ],
+  "author": "DAkTaPush",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DAkTaPush/VezeLang.git"
+  },
+  "engines": {
+    "node": ">=14.0.0"
   },
   "devDependencies": {
     "electron": "^42.0.0"
