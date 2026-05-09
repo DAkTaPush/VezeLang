@@ -1,0 +1,32 @@
+import window
+import ui12
+
+ui12.background = "#1e1e2e"
+ui12.color = "#cdd6f4"
+ui12.cardBackground = "#313244"
+ui12.cardColor = "#cdd6f4"
+ui12.cardBorderRadius = 12
+ui12.alertBackground = "#f38ba8"
+ui12.alertColor = "#1e1e2e"
+ui12.buttonBackground = "#89b4fa"
+ui12.buttonColor = "#1e1e2e"
+ui12.inputBackground = "#313244"
+ui12.inputColor = "#cdd6f4"
+
+show "ui12 v0.2 тест" in window
+
+on input("Введи своё имя") => {
+    show "Привет!" in window
+}
+
+on card("VezeLang", "Язык который читается как английское предложение") => {
+    show "Карточка нажата" in window
+}
+
+on alert("Внимание: ui12 v0.2 загружен!") => {
+    show "Принято" in window
+}
+
+on click("Готово") => {
+    show "Всё работает!" in window
+}

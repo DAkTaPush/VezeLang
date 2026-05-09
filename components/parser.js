@@ -155,17 +155,21 @@ class Parser {
     this.expect('KEYWORD', 'on');
     const event = this.expect('IDENTIFIER').value;
     this.expect('PUNCTUATION', '(');
-    let target = null;
-    if (!this.match('PUNCTUATION', ')')) {
+    const args = [];
+    while (!this.match('PUNCTUATION', ')') && !this.isAtEnd()) {
       const t = this.peek();
       if (t.type === 'STRING' || t.type === 'IDENTIFIER' || t.type === 'KEYWORD') {
-        target = this.advance().value;
+        args.push(this.advance().value);
+      } else {
+        break;
       }
+      if (this.match('PUNCTUATION', ',')) this.advance();
     }
     this.expect('PUNCTUATION', ')');
     this.expect('PUNCTUATION', '=>');
     const body = this.parseBlock('{', '}');
-    return { type: 'EventHandler', event, target, body, line };
+    const target = args.length > 0 ? args[0] : null;
+    return { type: 'EventHandler', event, target, args, body, line };
   }
 
   parseImport() {

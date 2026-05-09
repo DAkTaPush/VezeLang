@@ -1,5 +1,5 @@
-// VezeLang — библиотека ui12 v0.1
-// Управляет стилями окна: цвет, размер, позиция, кнопки
+// VezeLang — библиотека ui12 v0.2
+// Управляет стилями окна: цвет, размер, позиция, кнопки, input, card, alert
 
 class UI12 {
     constructor() {
@@ -14,7 +14,18 @@ class UI12 {
             borderRadius:      0,
             buttonColor:       '#000000',
             buttonBackground:  '#e0e0e0',
-            buttonFontSize:    16
+            buttonFontSize:    16,
+            inputBackground:   '#ffffff',
+            inputColor:        '#000000',
+            inputBorderColor:  '#cccccc',
+            inputFontSize:     16,
+            cardBackground:    '#ffffff',
+            cardColor:         '#000000',
+            cardBorderRadius:  8,
+            cardPadding:       16,
+            alertBackground:   '#ff4444',
+            alertColor:        '#ffffff',
+            alertBorderRadius: 4
         };
     }
 
@@ -61,6 +72,52 @@ class UI12 {
             }
             button:hover  { opacity: 0.85; }
             button:active { opacity: 0.7;  }
+            .input-group {
+                display:        flex;
+                align-items:    center;
+                margin:         ${s.margin}px;
+            }
+            .input-group input {
+                background:     ${s.inputBackground};
+                color:          ${s.inputColor};
+                border:         1px solid ${s.inputBorderColor};
+                font-size:      ${s.inputFontSize}px;
+                padding:        8px 12px;
+                border-radius:  ${s.borderRadius}px 0 0 ${s.borderRadius}px;
+                font-family:    ${s.fontFamily};
+                outline:        none;
+                min-width:      200px;
+            }
+            .input-btn {
+                border-radius: 0 ${s.borderRadius}px ${s.borderRadius}px 0 !important;
+                margin: 0 !important;
+            }
+            .card {
+                background:    ${s.cardBackground};
+                color:         ${s.cardColor};
+                border-radius: ${s.cardBorderRadius}px;
+                padding:       ${s.cardPadding}px;
+                margin:        ${s.margin}px;
+                cursor:        pointer;
+                transition:    opacity 0.15s;
+                min-width:     220px;
+                text-align:    left;
+            }
+            .card:hover { opacity: 0.85; }
+            .card-title { font-weight: bold; font-size: ${s.fontSize}px; margin-bottom: 4px; }
+            .card-text  { font-size: ${Math.round(s.fontSize * 0.8)}px; opacity: 0.75; }
+            .alert {
+                background:    ${s.alertBackground};
+                color:         ${s.alertColor};
+                border-radius: ${s.alertBorderRadius}px;
+                padding:       10px 20px;
+                margin:        ${s.margin}px;
+                cursor:        pointer;
+                transition:    opacity 0.15s;
+                min-width:     200px;
+                text-align:    center;
+            }
+            .alert:hover { opacity: 0.85; }
         `;
     }
 }

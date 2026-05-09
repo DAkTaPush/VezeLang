@@ -42,16 +42,18 @@ if (hasWindowImport && !process.versions.electron) {
   const child = spawn(electronBin, [__filename, filePath], { stdio: 'inherit' });
   child.on('exit', code => process.exit(code || 0));
 } else {
-  try {
-    const tokens = new Tokenizer(code).tokenize();
-    const ast    = new Parser(tokens).parse();
-    new Interpreter().run(ast);
-  } catch (err) {
-    if (err.name && err.name.startsWith('Veze')) {
-      console.log(err.message);
-    } else {
-      console.log('❌ Внутренняя ошибка:', err.message);
+  (async () => {
+    try {
+      const tokens = new Tokenizer(code).tokenize();
+      const ast    = new Parser(tokens).parse();
+      await new Interpreter().run(ast);
+    } catch (err) {
+      if (err.name && err.name.startsWith('Veze')) {
+        console.log(err.message);
+      } else {
+        console.log('❌ Внутренняя ошибка:', err.message);
+      }
+      process.exit(1);
     }
-    process.exit(1);
-  }
+  })();
 }

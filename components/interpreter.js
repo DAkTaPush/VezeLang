@@ -16,24 +16,61 @@ class Interpreter {
 
   // --- Entry points ---
 
-  run(ast) {
+  async run(ast) {
     for (const node of ast) {
       const sig = this.execute(node, this.globals);
       if (sig instanceof ReturnSignal) break;
     }
     this.fireEvent('load', 'window');
+
     if (this.windowLib) {
       const ui12 = this.globals['ui12'];
       if (ui12 && typeof ui12.getCSS === 'function') {
         this.windowLib.setStyles(ui12.getCSS());
       }
-      for (const key of Object.keys(this.events)) {
-        const [event, target] = key.split(':');
+      for (const [key, handler] of Object.entries(this.events)) {
+        const colonIdx = key.indexOf(':');
+        const event  = key.slice(0, colonIdx);
+        const target = key.slice(colonIdx + 1);
         if (event === 'click') this.windowLib.registerButton(target);
+        if (event === 'input') this.windowLib.registerInput(target);
+        if (event === 'card')  this.windowLib.registerCard(handler.args[0], handler.args[1] || '');
+        if (event === 'alert') this.windowLib.registerAlert(target);
       }
       this.windowLib.setCallback((event, target) => this.fireEvent(event, target));
       this.windowLib.open();
+    } else {
+      for (const [key, handler] of Object.entries(this.events)) {
+        const colonIdx = key.indexOf(':');
+        const event  = key.slice(0, colonIdx);
+        const target = key.slice(colonIdx + 1);
+        if (event === 'click') {
+          throw new VezeRuntimeError('on click() requires import window', handler.line);
+        }
+        if (event === 'card') {
+          throw new VezeRuntimeError('on card() requires import window', handler.line);
+        }
+        if (event === 'alert') {
+          console.warn('⚠ ' + (target || 'Alert'));
+          this.runBlock(handler.body, this.globals);
+        }
+        if (event === 'input') {
+          await this._promptTerminalInput(target, handler.body);
+        }
+      }
     }
+  }
+
+  async _promptTerminalInput(prompt, body) {
+    const readline = require('readline');
+    const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+    return new Promise(resolve => {
+      rl.question((prompt || 'Input') + ': ', _answer => {
+        rl.close();
+        this.runBlock(body, this.globals);
+        resolve();
+      });
+    });
   }
 
   runBlock(stmts, scope) {
@@ -90,7 +127,8 @@ class Interpreter {
       }
 
       case 'EventHandler': {
-        this.events[`${node.event}:${node.target}`] = node.body;
+        const evKey = `${node.event}:${node.target}`;
+        this.events[evKey] = { body: node.body, args: node.args || [], line: node.line };
         return;
       }
 
@@ -309,8 +347,8 @@ class Interpreter {
   // --- Event system ---
 
   fireEvent(event, target) {
-    const body = this.events[`${event}:${target}`];
-    if (body) this.runBlock(body, this.globals);
+    const handler = this.events[`${event}:${target}`];
+    if (handler) this.runBlock(handler.body, this.globals);
   }
 }
 

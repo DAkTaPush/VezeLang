@@ -2,9 +2,9 @@
 
 **Project:** VezeLang
 **Current version:** 0.1
-**Status:** ui12 v0.1 реализован.
-**Last completed:** ui12 v0.1 реализован — стили (цвет, размер, позиция, кнопки)
+**Status:** ui12 v0.2 реализован.
+**Last completed:** ui12 v0.2 реализован — компоненты (input, card, alert), правило №15 добавлено
 
-**Next step:** ui12 v0.2 — компоненты
+**Next step:** ui12 v0.3 — анимации
 
-**Rules finalized:** 14 правил, задокументированы в `specification.md`
+**Rules finalized:** 15 правил, задокументированы в `specification.md`
