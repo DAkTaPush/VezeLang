@@ -1,0 +1,29 @@
+import window
+import ui12
+
+ui12.background = "#1e1e2e"
+ui12.color = "#cdd6f4"
+ui12.buttonBackground = "#89b4fa"
+ui12.buttonColor = "#1e1e2e"
+ui12.hoverButtonBackground = "#74c7ec"
+ui12.hoverButtonScale = 1.1
+ui12.activeButtonScale = 0.9
+ui12.fadeInDuration = 0.5
+ui12.cardBackground = "#313244"
+ui12.cardColor = "#cdd6f4"
+ui12.cardBorderRadius = 12
+ui12.animationEasing = "ease-in-out"
+
+show "ui12 v0.3 — Анимации" in window
+
+on card("Hover меня", "Наведи мышку на карточку") => {
+    show "Карточка нажата!" in window
+}
+
+on click("Нажми меня") => {
+    show "Кнопка нажата!" in window
+}
+
+on click("Ещё раз") => {
+    show "Анимации работают!" in window
+}

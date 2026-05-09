@@ -1,5 +1,5 @@
-// VezeLang — библиотека ui12 v0.2
-// Управляет стилями окна: цвет, размер, позиция, кнопки, input, card, alert
+// VezeLang — библиотека ui12 v0.3
+// Управляет стилями окна: цвет, размер, позиция, кнопки, input, card, alert, анимации
 
 class UI12 {
     constructor() {
@@ -23,9 +23,17 @@ class UI12 {
             cardColor:         '#000000',
             cardBorderRadius:  8,
             cardPadding:       16,
-            alertBackground:   '#ff4444',
-            alertColor:        '#ffffff',
-            alertBorderRadius: 4
+            alertBackground:      '#ff4444',
+            alertColor:           '#ffffff',
+            alertBorderRadius:    4,
+            hoverButtonBackground:'#6a9fd8',
+            hoverButtonScale:     1.05,
+            activeButtonScale:    0.95,
+            fadeInDuration:       0.3,
+            fadeOutDuration:      0.3,
+            zoomDuration:         0.3,
+            zoomScale:            1.1,
+            animationEasing:      'ease'
         };
     }
 
@@ -70,8 +78,6 @@ class UI12 {
                 font-family:   ${s.fontFamily};
                 transition:    opacity 0.15s;
             }
-            button:hover  { opacity: 0.85; }
-            button:active { opacity: 0.7;  }
             .input-group {
                 display:        flex;
                 align-items:    center;
@@ -103,7 +109,6 @@ class UI12 {
                 min-width:     220px;
                 text-align:    left;
             }
-            .card:hover { opacity: 0.85; }
             .card-title { font-weight: bold; font-size: ${s.fontSize}px; margin-bottom: 4px; }
             .card-text  { font-size: ${Math.round(s.fontSize * 0.8)}px; opacity: 0.75; }
             .alert {
@@ -118,6 +123,51 @@ class UI12 {
                 text-align:    center;
             }
             .alert:hover { opacity: 0.85; }
+        ` + this.getAnimationCSS();
+    }
+
+    getAnimationCSS() {
+        const s = this.styles;
+        return `
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(-10px); }
+                to   { opacity: 1; transform: translateY(0); }
+            }
+            @keyframes fadeOut {
+                from { opacity: 1; transform: translateY(0); }
+                to   { opacity: 0; transform: translateY(-10px); }
+            }
+            @keyframes zoomIn {
+                from { transform: scale(0.8); opacity: 0; }
+                to   { transform: scale(1);   opacity: 1; }
+            }
+            .fade-in  { animation: fadeIn  ${s.fadeInDuration}s  ${s.animationEasing}; }
+            .fade-out { animation: fadeOut ${s.fadeOutDuration}s ${s.animationEasing}; }
+            .zoom-in  { animation: zoomIn  ${s.zoomDuration}s    ${s.animationEasing}; }
+            button {
+                transition: transform ${s.zoomDuration}s ${s.animationEasing},
+                            background ${s.fadeInDuration}s ${s.animationEasing},
+                            opacity 0.15s;
+            }
+            button:hover {
+                background: ${s.hoverButtonBackground} !important;
+                transform:  scale(${s.hoverButtonScale});
+                opacity:    1;
+            }
+            button:active {
+                transform: scale(${s.activeButtonScale});
+                opacity:   1;
+            }
+            .card {
+                transition: transform ${s.zoomDuration}s ${s.animationEasing};
+            }
+            .card:hover {
+                transform: scale(${s.hoverButtonScale});
+                opacity:   1;
+            }
+            .item {
+                animation: fadeIn ${s.fadeInDuration}s ${s.animationEasing};
+            }
         `;
     }
 }

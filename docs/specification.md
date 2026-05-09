@@ -105,6 +105,25 @@
     - on alert()  → console.warn в терминале
     - on card()   → VezeRuntimeError
 
+## ui12 — библиотека стилей
+
+### ui12 v0.3 — анимации
+    ui12.hoverButtonBackground = "#6a9fd8"  #{ цвет кнопки при наведении }
+    ui12.hoverButtonScale = 1.05            #{ масштаб кнопки при наведении }
+    ui12.activeButtonScale = 0.95           #{ масштаб кнопки при нажатии }
+    ui12.fadeInDuration = 0.3               #{ длительность fadeIn (секунды) }
+    ui12.fadeOutDuration = 0.3              #{ длительность fadeOut (секунды) }
+    ui12.zoomDuration = 0.3                 #{ длительность zoom (секунды) }
+    ui12.zoomScale = 1.1                    #{ масштаб zoom }
+    ui12.animationEasing = "ease"           #{ тип анимации }
+
+    Все элементы получают анимации автоматически:
+    - Текст (.item):   fadeIn при появлении
+    - Кнопки (button): hover (цвет + масштаб) + active (сжатие)
+    - Карточки (.card): zoom при наведении
+
+    CSS-классы: .fade-in, .fade-out, .zoom-in
+
 ## Комментарии
 #{ это комментарий }
 x = 5  #{ встроенный комментарий }

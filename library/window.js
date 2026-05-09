@@ -160,7 +160,7 @@ class WindowLibrary {
                 .replace(/"/g, '&quot;');
 
             const contentHtml = self.content
-                .map(item => `<div class="item">${escapeHtml(item)}</div>`)
+                .map(item => `<div class="item fade-in">${escapeHtml(item)}</div>`)
                 .join('\n        ');
 
             const buttonsHtml = self.buttons
@@ -250,7 +250,7 @@ class WindowLibrary {
 
         ipcRenderer.on('veze-show', (event, value) => {
             const div = document.createElement('div');
-            div.className = 'item';
+            div.className = 'item fade-in';
             div.textContent = value;
             document.getElementById('content').appendChild(div);
         });
