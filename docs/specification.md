@@ -204,6 +204,20 @@ obj = { k: 1 } #{ объект }
 import math
 ```
 
+```
+#{ Простые операции — не требуют math }
+result = 10 + 20
+result = 10 * 5
+
+#{ math нужен для сложных функций }
+x = math.sqrt(144)     #{ результат: 12 }
+y = math.round(3.7)    #{ результат: 4 }
+z = math.abs(-5)       #{ результат: 5 }
+pi = math.PI           #{ результат: 3.14159... }
+a = math.floor(4.9)    #{ результат: 4 }
+b = math.ceil(4.1)     #{ результат: 5 }
+```
+
 | Функция              | Описание              |
 |---------------------|-----------------------|
 | add(x, y)           | Сложение              |
@@ -330,13 +344,46 @@ show "Привет, мир!" in console
 ## Пример: Калькулятор
 
 ```
+import window
+import ui12
 import math
 
-x = 10
-y = 5
+ui12.background = "#1e1e2e"
+ui12.color = "#cdd6f4"
+ui12.buttonBackground = "#89b4fa"
+ui12.buttonColor = "#1e1e2e"
 
-show add(x, y) in console
-show multiply(x, y) in console
+state = { current: 0, total: 0 }
+
+on load(window) => {
+    show "Калькулятор" in window
+}
+
+on click("1") => { state.current = 1 }
+on click("2") => { state.current = 2 }
+on click("3") => { state.current = 3 }
+
+on click("=") => {
+    if state.current is 0 [
+        show "Введи число" in window
+    ]
+    else [
+        state.total = math.add(state.total, state.current)
+        show state.total in window
+        state.current = 0
+    ]
+}
+
+on click("√") => {
+    result = math.sqrt(state.total)
+    show result in window
+}
+
+on click("C") => {
+    state.total = 0
+    state.current = 0
+    show "Сброс" in window
+}
 ```
 
 ## Пример: Десктопное приложение
