@@ -63,7 +63,7 @@ VezeLang/
     └── Task.md
 ```
 
-## 14 правил языка
+## 15 правил языка
 1. Вывод: `show X in Y`
 2. Переменная: `x = y`
 3. Условие: `if x is 0 [ ]`
@@ -78,6 +78,7 @@ VezeLang/
 12. Ошибки: `try { } catch error [ ]`
 13. Списки и объекты: `items[0]` / `state.current`
 14. Режимы вывода: `show X in console` / `show X in window`
+15. Элементы интерфейса: `on input()` / `on card()` / `on alert()`
 
 ## Версия
 0.1.0
