@@ -2,9 +2,9 @@
 
 **Project:** VezeLang
 **Current version:** 0.1
-**Status:** ui12 v0.3 реализован.
-**Last completed:** ui12 v0.3 реализован — hover, active, fadeIn, zoom анимации
+**Status:** v1.0 завершён.
+**Last completed:** Финальная документация v1.0 — specification.md полностью переписан
 
-**Next step:** Финальная документация v1.0
+**Next step:** —
 
 **Rules finalized:** 15 правил, задокументированы в `specification.md`
