@@ -281,8 +281,16 @@ class Interpreter {
     if (cond.type === 'Comparison') {
       const l = this.evaluate(cond.left, scope);
       const r = this.evaluate(cond.right, scope);
-      if (cond.operator === 'is') return l === r;
-      throw new VezeRuntimeError(`неизвестный оператор сравнения: ${cond.operator}`);
+      switch (cond.operator) {
+        case 'is': return l === r;
+        case '>':  return l > r;
+        case '<':  return l < r;
+        case '>=': return l >= r;
+        case '<=': return l <= r;
+        case '!=': return l !== r;
+        default:
+          throw new VezeRuntimeError(`неизвестный оператор сравнения: ${cond.operator}`);
+      }
     }
     throw new VezeRuntimeError(`неизвестный тип условия: ${cond.type}`);
   }

@@ -146,6 +146,14 @@ class Parser {
       return { type: 'Comparison', left, operator: 'is', right };
     }
 
+    const compOps = ['>', '<', '>=', '<=', '!='];
+    if (this.peek(1).type === 'OPERATOR' && compOps.includes(this.peek(1).value)) {
+      const left = this.parsePrimary();
+      const operator = this.advance().value;
+      const right = this.parsePrimary();
+      return { type: 'Comparison', left, operator, right };
+    }
+
     const identifier = this.expect('IDENTIFIER').value;
     return { type: 'BooleanCheck', identifier, negated: false };
   }

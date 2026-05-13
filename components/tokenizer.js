@@ -104,6 +104,20 @@ class Tokenizer {
       this.advance();
       return { type: 'OPERATOR', value: '==', line };
     }
+    if (ch === '>' && this.peek() === '=') {
+      this.advance();
+      return { type: 'OPERATOR', value: '>=', line };
+    }
+    if (ch === '<' && this.peek() === '=') {
+      this.advance();
+      return { type: 'OPERATOR', value: '<=', line };
+    }
+    if (ch === '!' && this.peek() === '=') {
+      this.advance();
+      return { type: 'OPERATOR', value: '!=', line };
+    }
+    if (ch === '>') return { type: 'OPERATOR', value: ch, line };
+    if (ch === '<') return { type: 'OPERATOR', value: ch, line };
 
     if ('+-*/'.includes(ch)) return { type: 'OPERATOR', value: ch, line };
     if (ch === '=')          return { type: 'OPERATOR', value: ch, line };
